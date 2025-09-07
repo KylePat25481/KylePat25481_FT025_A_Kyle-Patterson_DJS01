@@ -66,49 +66,78 @@ h1, h2, h3 {
   font-size: 0.9rem;
 }
 
-/* Podcast grid */
-.podcast-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(240px, 1fr));
-  gap: 20px;
-  padding: 10px;
-}
-
+/* --- Podcast Card --- */
 .podcast-card {
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;                  /* solid card background */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  padding: 16px;
+  overflow: hidden;                  /* ensures nothing escapes the card */
+  position: relative;                /* anchors child content inside */
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .podcast-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
 
-.podcast-card img {
+.podcast-cover {
   width: 100%;
-  height: 200px;
-  object-fit: fill;
-  border-bottom: 1px solid #eee;
+  height: 160px;
+  background: #ccc;
+  border-radius: 8px;
+  flex-shrink: 0;
+  margin-bottom: 10px;
 }
 
-.podcast-card .card-body {
-  padding: 10px;
-}
-
-.podcast-card h3 {
-  font-size: 1rem;
-  margin-bottom: 6px;
-}
-
-.podcast-card p {
-  font-size: 0.85rem;
-  color: #555;
+.podcast-title {
+  font-size: 16px;
+  font-weight: 600;
   margin: 4px 0;
 }
+
+.podcast-seasons {
+  font-size: 14px;
+  margin: 2px 0;
+  color: #444;
+}
+
+.genre-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+}
+.genre-tags span {
+  background: #eee;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.updated {
+  font-size: 12px;
+  color: #777;
+  margin-top: auto;  /* pushes to bottom cleanly */
+}
+
+
+/* --- Grid Layout --- */
+.podcast-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(10px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  align-items: start; /* ensures taller cards don’t push others */
+}
+
+
 
 /* Modal */
 .modal {
@@ -154,6 +183,24 @@ h1, h2, h3 {
   justify-content: flex-end;
 }
 
+/* --- Modal Responsiveness --- */
+.modal-content {
+  max-width: 800px;
+  width: 90%;
+}
+.modal-body {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.modal-cover {
+  flex: 1;
+  min-width: 200px;
+}
+.modal-details {
+  flex: 2;
+}
+
 .close-btn {
   padding: 8px 14px;
   background: #fe0000;
@@ -167,20 +214,51 @@ h1, h2, h3 {
   background: #1d4ed8;
 }
 
-/* --- Podcast Card Styling --- */
-.podcast-seasons {
-  font-size: 14px;
-  margin: 4px 0;
-  color: #444;
+/* --- Uniform Card Height --- */
+.podcast-card {
+  height: 300px; /* desktop card height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
-.genre-tags span {
-  display: inline-block;
-  background: #eee;
-  border-radius: 20px;
-  padding: 2px 8px;
-  margin: 2px 4px 2px 0;
-  font-size: 12px;
+
+.podcast-cover {
+  height: 160px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: #ccc;
 }
+.podcast-title {
+  flex-grow: 0;
+}
+
+.podcast-seasons,
+.genre-tags,
+.updated {
+  flex-grow: 0;
+}
+
+/* Title truncation */
+.podcast-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 6px 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Seasons and updated info */
+.podcast-seasons,
+.updated {
+  font-size: 13px;
+  color: #555;
+  margin: 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 /* --- Modal Layout --- */
 .modal-body {
@@ -222,14 +300,47 @@ h1, h2, h3 {
   color: #666;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .filters {
-    flex-direction: column;
-    align-items: flex-start;
+/* Genre tags wrap but stay inside */
+.genre-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: auto; /* pushes genres to bottom nicely */
+}
+.genre-tags span {
+  background: #eee;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 768px) {
+  .podcast-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    padding: 12px;
+  }
+  .podcast-card {
+    height: 240px; /* shorter on mobile */
+  }
+  .podcast-cover {
+    height: 120px;
+  }
+}
+  .podcast-title {
+    font-size: 14px;
   }
 
-  .podcast-card img {
-    height: 150px;
+  .modal-body {
+    flex-direction: column;
+  }
+  .modal-cover {
+    min-height: 180px;
+    width: 100%;
+  }
+  .modal-details {
+    width: 100%;
   }
 }
