@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Podcast App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1 class="app-title">Podcast App</h1>
+    <button id="searchBtn" class="search-btn">🔍</button>
+  </header>
+
+  <!-- Filters -->
+  <section class="filters">
+    <label for="genre" class="filter-label">Filter by:</label>
+    <select id="genre" class="filter-select">
+      <option value="">All Genres</option>
+      <option value="comedy">Genre 1</option>
+      <option value="news">Genre 2</option>
+      <option value="sports">Genre 3</option>
+      <option value="technology">Genre 4</option>
+    </select>
+
+    <select id="sort" class="filter-select">
+      <option value="updated_desc">Recently Updated</option>
+      <option value="title_asc">Most Popular</option>
+      <option value="title_desc">Newest</option>
+    </select>
+  </section>
+
+  <!-- Stats -->
+  <div id="stats" class="stats"></div>
+
+  <!-- Podcast Grid -->
+  <main id="grid" class="podcast-grid">
+    <!-- JS will render podcast cards -->
+  </main>
+
+  <!-- Modal -->
+  <dialog id="detailsDialog" class="modal">
+    <div id="detailsBody" class="modal-body"></div>
+    <div class="modal-footer">
+      <button id="closeDetails" class="close-btn">Close</button>
+    </div>
+  </dialog>
+
+  <!-- Scripts -->
+  <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>
