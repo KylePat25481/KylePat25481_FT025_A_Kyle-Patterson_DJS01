@@ -72,7 +72,7 @@ h1, h2, h3 {
   flex-direction: column;
   justify-content: space-between;
   background: #fff;                  /* solid card background */
-  border-radius: 12px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.08);
   padding: 16px;
   overflow: hidden;                  /* ensures nothing escapes the card */
@@ -87,7 +87,7 @@ h1, h2, h3 {
 }
 
 .podcast-cover {
-  width: 100%;
+  width: 70%;
   height: 160px;
   background: #ccc;
   border-radius: 8px;
@@ -136,7 +136,6 @@ h1, h2, h3 {
   padding: 20px;
   align-items: start; /* ensures taller cards don’t push others */
 }
-
 
 
 /* Modal */
@@ -216,18 +215,20 @@ h1, h2, h3 {
 
 /* --- Uniform Card Height --- */
 .podcast-card {
-  height: 300px; /* desktop card height */
+  min-height: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  overflow: hidden;
 }
 
-.podcast-cover {
-  height: 160px;
-  flex-shrink: 0;
+.podcast-cover img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
   border-radius: 8px;
-  background: #ccc;
 }
+
+
 .podcast-title {
   flex-grow: 0;
 }
@@ -318,15 +319,15 @@ h1, h2, h3 {
 /* --- Mobile Adjustments --- */
 @media (max-width: 768px) {
   .podcast-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(1, minmax(160px, 1fr));
     gap: 12px;
     padding: 12px;
   }
   .podcast-card {
-    height: 240px; /* shorter on mobile */
+    height: 220px; /* shorter on mobile */
   }
   .podcast-cover {
-    height: 120px;
+    height: 20px;
   }
 }
   .podcast-title {
@@ -343,4 +344,3 @@ h1, h2, h3 {
   .modal-details {
     width: 100%;
   }
-}
