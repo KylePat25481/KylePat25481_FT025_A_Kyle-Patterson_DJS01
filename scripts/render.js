@@ -1,43 +1,69 @@
-// Render podcast cards (grid view)
-export function renderGrid(podcasts, container, openModalCallback) {
+/**
+ * render.js
+ * Handles rendering podcasts and modal
+ */
+
+export function renderGrid(container, list, onClick) {
   container.innerHTML = "";
-    const card = document.createElement("div");
-    card.classList.add("podcast-card");
-    card.innerHTML = `
-      <div class="podcast-cover"></div>
-      <h3 class="podcast-title">${podcasts.title}</h3>
-      <p class="podcast-seasons">${podcasts.seasons} Seasons</p>
-      <div class="genre-tags">
-        ${podcasts.genres.map((g) => `<span>${g}</span>`).join("")}
-      </div>
-      <small class="updated">Updated ${podcasts.updated}</small>
-    `;
-    card.addEventListener("click", () => openModalCallback(podcasts));
-    container.appendChild(card);
+
+  if (!list.length) {
+    container.innerHTML = `<p class="no-results">No podcasts found.</p>`;
+    return;
   }
 
-// Render modal window details
-export function renderDetails(podcasts, modal) {
-  modal.querySelector(".modal-title").textContent = podcasts.title;
-  modal.querySelector(".modal-description").textContent = podcasts.description;
-  modal.querySelector(".modal-genres").innerHTML = podcasts.genres
-    .map((g) => `<span>${g}</span>`)
-    .join("");
-  modal.querySelector(".modal-updated").textContent = `Last updated: ${podcasts.updated}`;
+  list.forEach((podcast) => {
+    const card = document.createElement("div");
+    card.className = "podcast-card";
 
-  modal.querySelector(".modal-seasons").innerHTML = podcasts.seasonDetails
-    ? podcasts.seasonDetails
-        .map(
-          (s, i) => `
-        <div class="season">
-          <div>
-            <strong>Season ${i + 1}: ${s.title}</strong><br>
-            <small>${s.description}</small>
-          </div>
-          <span>${s.episodes} episodes</span>
-        </div>
-      `
-        )
-        .join("")
-    : "";
+    card.innerHTML = `
+      <img src="${podcast.image}" alt="${podcast.title}" />
+      <div class="card-body">
+        <h3>${podcast.title}</h3>
+        <p>${podcast.description || "No description available."}</p>
+        <p class="date">Last updated: ${new Date(
+          podcast.updated
+        ).toLocaleDateString()}</p>
+      </div>
+    `;
+
+    card.addEventListener("click", () => onClick(podcast.id));
+    container.appendChild(card);
+  });
 }
+
+export function renderStats(el, count) {
+  el.textContent = `${count} podcast${count !== 1 ? "s" : ""} available`;
+}
+
+export function renderDetails(container, id, data) {
+  const podcast = data.find((p) => p.id === id);
+  if (!podcast) {
+    container.innerHTML = "<p>Podcast not found.</p>";
+    return;
+  }
+
+  container.innerHTML = `
+    <img src="${podcast.image}" alt="${podcast.title}" />
+    <h2>${podcast.title}</h2>
+    <p>${podcast.description || "No description available."}</p>
+    <p class="date">Last updated: ${new Date(
+      podcast.updated
+    ).toLocaleDateString()}</p>
+    <h3>Seasons</h3>
+    <ul>
+      ${
+        podcast.seasons && podcast.seasons.length
+          ? podcast.seasons
+              .map(
+                (s) =>
+                  `<li>${s.title} — ${s.episodes} episode${
+                    s.episodes !== 1 ? "s" : ""
+                  }</li>`
+              )
+              .join("")
+          : "<li>No season data available.</li>"
+      }
+    </ul>
+  `;
+}
+
