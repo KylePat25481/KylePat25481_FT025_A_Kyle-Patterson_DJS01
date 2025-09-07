@@ -1,12 +1,29 @@
-export function formatUpdated(iso) {
-  const d = new Date(iso);
-  return d.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric"
-  });
-}
+/**
+ * @module Utils
+ * Reusable helper functions
+ */
+const Utils = (() => {
+  /**
+   * Creates a paragraph element with provided text
+   * @param {string} text
+   * @returns {HTMLParagraphElement}
+   */
+  const createParagraph = (text) => {
+    const p = document.createElement('p');
+    p.textContent = text;
+    return p;
+  };
 
-export function pluralize(word, count) {
-  return `${count} ${count === 1 ? word : word + "s"}`;
-}
+  /**
+   * Formats ISO date to human-readable string
+   * @param {string} isoDate
+   * @returns {string}
+   */
+  const formatDate = (isoDate) => {
+    if (!isoDate) return 'N/A';
+    const date = new Date(isoDate);
+    return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
+  return { createParagraph, formatDate };
+})();
