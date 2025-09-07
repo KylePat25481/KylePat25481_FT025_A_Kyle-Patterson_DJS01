@@ -5,7 +5,7 @@
 
 import { filterByGenre, filterByQuery, sortItems } from "./filters.js";
 import { state, subscribe } from "./state.js";
-import { renderGrid, renderDetails } from "./render.js";
+import { renderGrid, renderStats, renderDetails } from "./render.js";
 import { podcasts } from "../data.js";
 
 /* DOM references */
